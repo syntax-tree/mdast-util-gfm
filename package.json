@@ -44,10 +44,10 @@
   "devDependencies": {
     "github-slugger": "^1.0.0",
     "hast-util-to-html": "^7.0.0",
-    "mdast-util-from-markdown": "^0.6.0",
+    "mdast-util-from-markdown": "^0.7.0",
     "mdast-util-to-hast": "^9.0.0",
     "mdast-util-to-markdown": "^0.3.0",
-    "micromark-extension-gfm": "^0.2.0",
+    "micromark-extension-gfm": "^0.3.0",
     "node-fetch": "^2.0.0",
     "nyc": "^15.0.0",
     "prettier": "^2.0.0",

@@ -14,8 +14,8 @@ Extension for [`mdast-util-from-markdown`][from-markdown] and/or
 When parsing (`from-markdown`), must be combined with
 [`micromark-extension-gfm`][extension].
 
-You probably shouldn’t use this package directly, but instead use `remark-gfm`
-with **[remark][]**.
+You probably shouldn’t use this package directly, but instead use
+[`remark-gfm`][remark-gfm] with **[remark][]**.
 
 Alternatively, the extensions can be used separately:
 
@@ -238,7 +238,7 @@ for [`mdast-util-from-markdown`][from-markdown] and
 
 *   [`remarkjs/remark`][remark]
     — markdown processor powered by plugins
-*   `remarkjs/remark-gfm`
+*   [`remarkjs/remark-gfm`][remark-gfm]
     — remark plugin to support GFM
 *   [`micromark/micromark`][micromark]
     — the smallest commonmark-compliant markdown parser that exists
@@ -306,6 +306,8 @@ abide by its terms.
 [mdast]: https://github.com/syntax-tree/mdast
 
 [remark]: https://github.com/remarkjs/remark
+
+[remark-gfm]: https://github.com/remarkjs/remark-gfm
 
 [from-markdown]: https://github.com/syntax-tree/mdast-util-from-markdown
 

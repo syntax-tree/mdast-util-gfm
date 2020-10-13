@@ -46,7 +46,7 @@
     "hast-util-to-html": "^7.0.0",
     "mdast-util-from-markdown": "^0.8.0",
     "mdast-util-to-hast": "^10.0.0",
-    "mdast-util-to-markdown": "^0.4.0",
+    "mdast-util-to-markdown": "^0.5.0",
     "micromark-extension-gfm": "^0.3.0",
     "node-fetch": "^2.0.0",
     "nyc": "^15.0.0",

@@ -265,9 +265,9 @@ abide by its terms.
 
 <!-- Definitions -->
 
-[build-badge]: https://img.shields.io/travis/syntax-tree/mdast-util-gfm.svg
+[build-badge]: https://github.com/syntax-tree/mdast-util-gfm/workflows/main/badge.svg
 
-[build]: https://travis-ci.org/syntax-tree/mdast-util-gfm
+[build]: https://github.com/syntax-tree/mdast-util-gfm/actions
 
 [coverage-badge]: https://img.shields.io/codecov/c/github/syntax-tree/mdast-util-gfm.svg
 

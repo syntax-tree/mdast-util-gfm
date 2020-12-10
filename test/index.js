@@ -46,7 +46,7 @@ test('markdown -> mdast', function (t) {
         fixtureHtml = example.output.slice(0, -1)
       }
 
-      md = toMarkdown(mdast, {extensions: gfm.toMarkdown()})
+      md = toMarkdown(mdast, {extensions: [gfm.toMarkdown()]})
 
       try {
         fixtureMarkdown = String(fs.readFileSync(fixtureMarkdownPath))

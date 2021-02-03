@@ -13,7 +13,7 @@ module.exports = configure([
 ])
 
 function configure(extensions) {
-  var config = {canContainEols: []}
+  var config = {transforms: [], canContainEols: []}
   var length = extensions.length
   var index = -1
 
@@ -33,7 +33,7 @@ function extension(config, extension) {
     left = own.call(config, key) ? config[key] : (config[key] = {})
     right = extension[key]
 
-    if (key === 'canContainEols') {
+    if (key === 'canContainEols' || key === 'transforms') {
       config[key] = [].concat(left, right)
     } else {
       Object.assign(left, right)

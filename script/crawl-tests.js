@@ -1,8 +1,6 @@
-'use strict'
-
-var fs = require('fs')
-var path = require('path')
-var fetch = require('node-fetch')
+import fs from 'fs'
+import path from 'path'
+import fetch from 'node-fetch'
 
 fetch(
   'https://api.github.com/repos/micromark/micromark-extension-gfm/contents/test/spec.json',

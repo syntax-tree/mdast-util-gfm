@@ -14,8 +14,12 @@ Extension for [`mdast-util-from-markdown`][from-markdown] and/or
 When parsing (`from-markdown`), must be combined with
 [`micromark-extension-gfm`][extension].
 
-You probably shouldn’t use this package directly, but instead use
-[`remark-gfm`][remark-gfm] with **[remark][]**.
+## When to use this
+
+Use this if you’re dealing with the AST manually and need all of GFM.
+It’s probably nicer to use [`remark-gfm`][remark-gfm] with
+**[remark][]**, which includes this but provides a nicer interface and
+makes it easier to combine with hundreds of plugins.
 
 Alternatively, the extensions can be used separately:
 
@@ -65,25 +69,25 @@ www.example.com, https://example.com, and contact@example.com.
 * [x] done
 ```
 
-And our script, `example.js`, looks as follows:
+And our module, `example.js`, looks as follows:
 
 ```js
-var fs = require('fs')
-var fromMarkdown = require('mdast-util-from-markdown')
-var toMarkdown = require('mdast-util-to-markdown')
-var syntax = require('micromark-extension-gfm')
-var gfm = require('mdast-util-gfm')
+import fs from 'node:fs'
+import {fromMarkdown} from 'mdast-util-from-markdown'
+import {toMarkdown} from 'mdast-util-to-markdown'
+import {gfm} from 'micromark-extension-gfm'
+import {gfmFromMarkdown, gfmToMarkdown} from 'mdast-util-gfm'
 
-var doc = fs.readFileSync('example.md')
+const doc = fs.readFileSync('example.md')
 
-var tree = fromMarkdown(doc, {
-  extensions: [syntax()],
-  mdastExtensions: [gfm.fromMarkdown]
+const tree = fromMarkdown(doc, {
+  extensions: [gfm()],
+  mdastExtensions: [gfmFromMarkdown]
 })
 
 console.log(tree)
 
-var out = toMarkdown(tree, {extensions: [gfm.toMarkdown()]})
+const out = toMarkdown(tree, {extensions: [gfmToMarkdown()]})
 
 console.log(out)
 ```
@@ -232,10 +236,6 @@ returns an extension for [`mdast-util-to-markdown`][to-markdown].
 ###### `options`
 
 Passed as `options` to [`mdast-util-gfm-table`][table].
-
-The exports are extensions, respectively
-for [`mdast-util-from-markdown`][from-markdown] and
-[`mdast-util-to-markdown`][to-markdown].
 
 ## Related
 

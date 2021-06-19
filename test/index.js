@@ -11,7 +11,7 @@ import {gfmFromMarkdown, gfmToMarkdown} from '../index.js'
 
 const spec = JSON.parse(fs.readFileSync(path.join('test', 'spec.json')))
 
-test('markdown -> mdast', function (t) {
+test('markdown -> mdast', (t) => {
   const files = spec.filter(
     (example) => !/disallowed raw html/i.test(example.category)
   )
@@ -19,38 +19,39 @@ test('markdown -> mdast', function (t) {
 
   while (++index < files.length) {
     const example = files[index]
-    var category = Slugger.slug(example.category)
-    var name = index + '-' + category
-    var fixtureHtmlPath = path.join('test', name + '.html')
-    var fixtureMarkdownPath = path.join('test', name + '.md')
-    var fixtureHtml
-    var fixtureMarkdown
-    var mdast
-    var html
-    var md
+    const category = Slugger.slug(example.category)
+    const name = index + '-' + category
+    const fixtureHtmlPath = path.join('test', name + '.html')
+    const fixtureMarkdownPath = path.join('test', name + '.md')
 
-    mdast = fromMarkdown(example.input, {
+    const mdast = fromMarkdown(example.input, {
       extensions: [gfm()],
       mdastExtensions: [gfmFromMarkdown]
     })
 
-    html = toHtml(toHast(mdast, {allowDangerousHtml: true, commonmark: true}), {
-      allowDangerousHtml: true,
-      entities: {useNamedReferences: true},
-      closeSelfClosing: true
-    })
+    const html = toHtml(
+      toHast(mdast, {allowDangerousHtml: true, commonmark: true}),
+      {
+        allowDangerousHtml: true,
+        entities: {useNamedReferences: true},
+        closeSelfClosing: true
+      }
+    )
+
+    let fixtureHtml
+    let fixtureMarkdown
 
     try {
       fixtureHtml = String(fs.readFileSync(fixtureHtmlPath))
-    } catch (_) {
+    } catch {
       fixtureHtml = example.output.slice(0, -1)
     }
 
-    md = toMarkdown(mdast, {extensions: [gfmToMarkdown()]})
+    const md = toMarkdown(mdast, {extensions: [gfmToMarkdown()]})
 
     try {
       fixtureMarkdown = String(fs.readFileSync(fixtureMarkdownPath))
-    } catch (_) {
+    } catch {
       fixtureMarkdown = md
       fs.writeFileSync(fixtureMarkdownPath, fixtureMarkdown)
     }

@@ -1,21 +1,38 @@
-import gfmAutolinkLiteralFromMarkdown from 'mdast-util-gfm-autolink-literal/from-markdown.js'
-import gfmAutolinkLiteralToMarkdown from 'mdast-util-gfm-autolink-literal/to-markdown.js'
-import gfmStrikethroughFromMarkdown from 'mdast-util-gfm-strikethrough/from-markdown.js'
-import gfmStrikethroughToMarkdown from 'mdast-util-gfm-strikethrough/to-markdown.js'
-import gfmTableFromMarkdown from 'mdast-util-gfm-table/from-markdown.js'
-import gfmTableToMarkdown from 'mdast-util-gfm-table/to-markdown.js'
-import gfmTaskListItemFromMarkdown from 'mdast-util-gfm-task-list-item/from-markdown.js'
-import gfmTaskListItemToMarkdown from 'mdast-util-gfm-task-list-item/to-markdown.js'
+/**
+ * @typedef {import('mdast-util-from-markdown').Extension} FromMarkdownExtension
+ * @typedef {import('mdast-util-to-markdown').Options} ToMarkdownExtension
+ *
+ * @typedef {import('mdast-util-gfm-table').Options} Options
+ */
 
-const own = {}.hasOwnProperty
+import {
+  gfmAutolinkLiteralFromMarkdown,
+  gfmAutolinkLiteralToMarkdown
+} from 'mdast-util-gfm-autolink-literal'
+import {
+  gfmStrikethroughFromMarkdown,
+  gfmStrikethroughToMarkdown
+} from 'mdast-util-gfm-strikethrough'
+import {gfmTableFromMarkdown, gfmTableToMarkdown} from 'mdast-util-gfm-table'
+import {
+  gfmTaskListItemFromMarkdown,
+  gfmTaskListItemToMarkdown
+} from 'mdast-util-gfm-task-list-item'
 
-export const gfmFromMarkdown = configure([
+/**
+ * @type {Array.<FromMarkdownExtension>}
+ */
+export const gfmFromMarkdown = [
   gfmAutolinkLiteralFromMarkdown,
   gfmStrikethroughFromMarkdown,
   gfmTableFromMarkdown,
   gfmTaskListItemFromMarkdown
-])
+]
 
+/**
+ * @param {Options} [options]
+ * @returns {ToMarkdownExtension}
+ */
 export function gfmToMarkdown(options) {
   return {
     extensions: [
@@ -24,36 +41,5 @@ export function gfmToMarkdown(options) {
       gfmTableToMarkdown(options),
       gfmTaskListItemToMarkdown
     ]
-  }
-}
-
-function configure(extensions) {
-  const config = {transforms: [], canContainEols: []}
-  const length = extensions.length
-  let index = -1
-
-  while (++index < length) {
-    extension(config, extensions[index])
-  }
-
-  return config
-}
-
-function extension(config, extension) {
-  let key
-  let left
-  let right
-
-  for (key in extension) {
-    if (own.call(extension, key)) {
-      left = own.call(config, key) ? config[key] : (config[key] = {})
-      right = extension[key]
-
-      if (key === 'canContainEols' || key === 'transforms') {
-        config[key] = [].concat(left, right)
-      } else {
-        Object.assign(left, right)
-      }
-    }
   }
 }

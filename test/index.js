@@ -4,9 +4,9 @@ import test from 'tape'
 import Slugger from 'github-slugger'
 import {toHast} from 'mdast-util-to-hast'
 import {toHtml} from 'hast-util-to-html'
-import fromMarkdown from 'mdast-util-from-markdown'
-import toMarkdown from 'mdast-util-to-markdown'
-import gfm from 'micromark-extension-gfm'
+import {fromMarkdown} from 'mdast-util-from-markdown'
+import {toMarkdown} from 'mdast-util-to-markdown'
+import {gfm} from 'micromark-extension-gfm'
 import {gfmFromMarkdown, gfmToMarkdown} from '../index.js'
 
 const spec = JSON.parse(fs.readFileSync(path.join('test', 'spec.json')))

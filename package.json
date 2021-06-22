@@ -1,6 +1,6 @@
 {
   "name": "mdast-util-gfm",
-  "version": "0.1.2",
+  "version": "1.0.0",
   "description": "mdast extension to parse and serialize GFM (GitHub Flavored Markdown)",
   "license": "MIT",
   "keywords": [

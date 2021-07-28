@@ -1,5 +1,5 @@
-import fs from 'fs'
-import path from 'path'
+import fs from 'node:fs'
+import path from 'node:path'
 import test from 'tape'
 import Slugger from 'github-slugger'
 import {toHast} from 'mdast-util-to-hast'

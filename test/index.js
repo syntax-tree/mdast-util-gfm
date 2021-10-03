@@ -25,7 +25,7 @@ test('markdown -> mdast', (t) => {
 
     const mdast = fromMarkdown(example.input, {
       extensions: [gfm()],
-      mdastExtensions: [gfmFromMarkdown]
+      mdastExtensions: [gfmFromMarkdown()]
     })
 
     const html = toHtml(

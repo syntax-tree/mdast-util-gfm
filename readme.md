@@ -82,7 +82,7 @@ const doc = fs.readFileSync('example.md')
 
 const tree = fromMarkdown(doc, {
   extensions: [gfm()],
-  mdastExtensions: [gfmFromMarkdown]
+  mdastExtensions: [gfmFromMarkdown()]
 })
 
 console.log(tree)
@@ -219,17 +219,17 @@ Now, running `node example` yields:
 
 ## API
 
-This package exports the following identifier: `gfmFromMarkdown`,
+This package exports the following identifiers: `gfmFromMarkdown`,
 `gfmToMarkdown`.
 There is no default export.
 
-### `gfmFromMarkdown`
+### `gfmFromMarkdown()`
 
 ### `gfmToMarkdown(options?)`
 
 Support GFM.
-The exports of `fromMarkdown` is an extension for
-[`mdast-util-from-markdown`][from-markdown].
+The export of `fromMarkdown` is a function that can be called and returns an
+extension for [`mdast-util-from-markdown`][from-markdown].
 The export of `toMarkdown` is a function that can be called with options and
 returns an extension for [`mdast-util-to-markdown`][to-markdown].
 

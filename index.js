@@ -20,14 +20,16 @@ import {
 } from 'mdast-util-gfm-task-list-item'
 
 /**
- * @type {Array.<FromMarkdownExtension>}
+ * @returns {Array.<FromMarkdownExtension>}
  */
-export const gfmFromMarkdown = [
-  gfmAutolinkLiteralFromMarkdown,
-  gfmStrikethroughFromMarkdown,
-  gfmTableFromMarkdown,
-  gfmTaskListItemFromMarkdown
-]
+export function gfmFromMarkdown() {
+  return [
+    gfmAutolinkLiteralFromMarkdown,
+    gfmStrikethroughFromMarkdown,
+    gfmTableFromMarkdown,
+    gfmTaskListItemFromMarkdown
+  ]
+}
 
 /**
  * @param {Options} [options]

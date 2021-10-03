@@ -10,6 +10,10 @@ import {
   gfmAutolinkLiteralToMarkdown
 } from 'mdast-util-gfm-autolink-literal'
 import {
+  gfmFootnoteFromMarkdown,
+  gfmFootnoteToMarkdown
+} from 'mdast-util-gfm-footnote'
+import {
   gfmStrikethroughFromMarkdown,
   gfmStrikethroughToMarkdown
 } from 'mdast-util-gfm-strikethrough'
@@ -25,6 +29,7 @@ import {
 export function gfmFromMarkdown() {
   return [
     gfmAutolinkLiteralFromMarkdown,
+    gfmFootnoteFromMarkdown(),
     gfmStrikethroughFromMarkdown,
     gfmTableFromMarkdown,
     gfmTaskListItemFromMarkdown
@@ -39,6 +44,7 @@ export function gfmToMarkdown(options) {
   return {
     extensions: [
       gfmAutolinkLiteralToMarkdown,
+      gfmFootnoteToMarkdown(),
       gfmStrikethroughToMarkdown,
       gfmTableToMarkdown(options),
       gfmTaskListItemToMarkdown

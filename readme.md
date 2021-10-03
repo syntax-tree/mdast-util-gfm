@@ -25,6 +25,8 @@ Alternatively, the extensions can be used separately:
 
 *   [`syntax-tree/mdast-util-gfm-autolink-literal`](https://github.com/syntax-tree/mdast-util-gfm-autolink-literal)
     — support GFM autolink literals
+*   [`syntax-tree/mdast-util-gfm-footnote`](https://github.com/syntax-tree/mdast-util-gfm-footnote)
+    — support GFM footnotes
 *   [`syntax-tree/mdast-util-gfm-strikethrough`](https://github.com/syntax-tree/mdast-util-gfm-strikethrough)
     — support GFM strikethrough
 *   [`syntax-tree/mdast-util-gfm-table`](https://github.com/syntax-tree/mdast-util-gfm-table)
@@ -53,6 +55,12 @@ Say we have the following file, `example.md`:
 ## Autolink literals
 
 www.example.com, https://example.com, and contact@example.com.
+
+## Footnote
+
+A note[^1]
+
+[^1]: Big note.
 
 ## Strikethrough
 
@@ -130,6 +138,22 @@ Now, running `node example` yields:
         {type: 'text', value: '.'}
       ]
     },
+    {type: 'heading', depth: 2, children: [{type: 'text', value: 'Footnote'}]},
+    {
+      type: 'paragraph',
+      children: [
+        {type: 'text', value: 'A note'},
+        {type: 'footnoteReference', identifier: '1', label: '1'}
+      ]
+    },
+    {
+      type: 'footnoteDefinition',
+      identifier: '1',
+      label: '1',
+      children: [
+        {type: 'paragraph', children: [{type: 'text', value: 'Big note.'}]}
+      ]
+    },
     {
       type: 'heading',
       depth: 2,
@@ -201,6 +225,12 @@ Now, running `node example` yields:
 ## Autolink literals
 
 [www.example.com](http://www.example.com), <https://example.com>, and <contact@example.com>.
+
+## Footnote
+
+A note[^1]
+
+[^1]: Big note.
 
 ## Strikethrough
 

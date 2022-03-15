@@ -17,7 +17,6 @@
     "autolink",
     "tagfilter",
     "github",
-    "gfm",
     "gfm"
   ],
   "repository": "syntax-tree/mdast-util-gfm",
@@ -35,6 +34,7 @@
   "main": "index.js",
   "types": "index.d.ts",
   "files": [
+    "lib/",
     "index.d.ts",
     "index.js"
   ],
@@ -65,11 +65,11 @@
     "xo": "^0.48.0"
   },
   "scripts": {
-    "build": "rimraf \"*.d.ts\" && tsc && type-coverage",
+    "build": "rimraf \"lib/**/*.d.ts\" \"*.d.ts\" && tsc && type-coverage",
     "format": "remark . -qfo && prettier . -w --loglevel warn && xo --fix",
     "crawl": "node script/crawl-tests",
     "test-api": "node --conditions development test/index.js",
-    "test-coverage": "c8 --check-coverage --branches 100 --functions 100 --lines 100 --statements 100 --reporter lcov node --conditions development test/index.js",
+    "test-coverage": "c8 --check-coverage --branches 100 --functions 100 --lines 100 --statements 100 --reporter lcov npm run test-api",
     "test": "npm run build && npm run format && npm run test-coverage"
   },
   "prettier": {

@@ -29,7 +29,7 @@ test('markdown -> mdast', (t) => {
       mdastExtensions: [gfmFromMarkdown()]
     })
 
-    const hast = toHast(mdast, {allowDangerousHtml: true, commonmark: true})
+    const hast = toHast(mdast, {allowDangerousHtml: true})
     assert(hast, 'expected node')
 
     const html = toHtml(hast, {
@@ -38,7 +38,9 @@ test('markdown -> mdast', (t) => {
       closeSelfClosing: true
     })
 
+    /** @type {string} */
     let fixtureHtml
+    /** @type {string} */
     let fixtureMarkdown
 
     try {

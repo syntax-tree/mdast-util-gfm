@@ -65,11 +65,12 @@
     "xo": "^0.53.0"
   },
   "scripts": {
-    "build": "rimraf \"lib/**/*.d.ts\" \"*.d.ts\" && tsc && type-coverage",
+    "crawl": "node --conditions development script/crawl-tests.js",
+    "prepack": "npm run build && npm run format",
+    "build": "tsc --build --clean && tsc --build && type-coverage",
     "format": "remark . -qfo && prettier . -w --loglevel warn && xo --fix",
-    "crawl": "node script/crawl-tests",
     "test-api": "node --conditions development test/index.js",
-    "test-coverage": "c8 --check-coverage --branches 100 --functions 100 --lines 100 --statements 100 --reporter lcov npm run test-api",
+    "test-coverage": "c8 --check-coverage --100 --reporter lcov npm run test-api",
     "test": "npm run build && npm run format && npm run test-coverage"
   },
   "prettier": {

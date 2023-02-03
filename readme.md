@@ -33,7 +33,7 @@ footnotes, strikethrough, tables, tasklists).
 ## What is this?
 
 This package contains two extensions that add support for GFM syntax in
-markdown to [mdast][]: : autolink literals (`www.x.com`), footnotes (`[^1]`),
+markdown to [mdast][]: autolink literals (`www.x.com`), footnotes (`[^1]`),
 strikethrough (`~~stuff~~`), tables (`| cell |…`), and tasklists (`* [x]`).
 These extensions plug into
 [`mdast-util-from-markdown`][mdast-util-from-markdown] (to support parsing

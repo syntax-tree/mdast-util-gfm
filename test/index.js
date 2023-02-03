@@ -1,6 +1,5 @@
 import assert from 'node:assert/strict'
-import fs from 'node:fs'
-import path from 'node:path'
+import fs from 'node:fs/promises'
 import test from 'tape'
 import {slug} from 'github-slugger'
 import {toHast} from 'mdast-util-to-hast'
@@ -11,7 +10,7 @@ import {gfm} from 'micromark-extension-gfm'
 import {gfmFromMarkdown, gfmToMarkdown} from '../index.js'
 import {spec} from './spec.js'
 
-test('markdown -> mdast', (t) => {
+test('markdown -> mdast', async (t) => {
   const files = spec.filter(
     (example) => !/disallowed raw html/i.test(example.category)
   )
@@ -19,11 +18,7 @@ test('markdown -> mdast', (t) => {
 
   while (++index < files.length) {
     const example = files[index]
-    const category = slug(example.category)
-    const name = index + '-' + category
-    const fixtureHtmlPath = path.join('test', name + '.html')
-    const fixtureMarkdownPath = path.join('test', name + '.md')
-
+    const name = index + '-' + slug(example.category)
     const mdast = fromMarkdown(example.input, {
       extensions: [gfm()],
       mdastExtensions: [gfmFromMarkdown()]
@@ -31,35 +26,44 @@ test('markdown -> mdast', (t) => {
 
     const hast = toHast(mdast, {allowDangerousHtml: true})
     assert(hast, 'expected node')
-
-    const html = toHtml(hast, {
+    const actualHtml = toHtml(hast, {
       allowDangerousHtml: true,
       entities: {useNamedReferences: true},
       closeSelfClosing: true
     })
 
     /** @type {string} */
-    let fixtureHtml
+    let expectedHtml
     /** @type {string} */
-    let fixtureMarkdown
+    let expectedMarkdown
+    const expectedUrl = new URL(name + '.html', import.meta.url)
+    const inputUrl = new URL(name + '.md', import.meta.url)
 
     try {
-      fixtureHtml = String(fs.readFileSync(fixtureHtmlPath))
+      expectedHtml = String(await fs.readFile(expectedUrl))
     } catch {
-      fixtureHtml = example.output.slice(0, -1)
+      expectedHtml = example.output.slice(0, -1)
     }
 
-    const md = toMarkdown(mdast, {extensions: [gfmToMarkdown()]})
+    const actualMarkdown = toMarkdown(mdast, {extensions: [gfmToMarkdown()]})
 
     try {
-      fixtureMarkdown = String(fs.readFileSync(fixtureMarkdownPath))
+      expectedMarkdown = String(await fs.readFile(inputUrl))
     } catch {
-      fixtureMarkdown = md
-      fs.writeFileSync(fixtureMarkdownPath, fixtureMarkdown)
+      expectedMarkdown = actualMarkdown
+      await fs.writeFile(inputUrl, expectedMarkdown)
     }
 
-    t.deepEqual(html, fixtureHtml, category + ' (' + index + ') -> html')
-    t.equal(md, fixtureMarkdown, category + ' (' + index + ') -> md')
+    t.deepEqual(
+      actualHtml,
+      expectedHtml,
+      example.category + ' (' + index + ') -> html'
+    )
+    t.equal(
+      actualMarkdown,
+      expectedMarkdown,
+      example.category + ' (' + index + ') -> md'
+    )
   }
 
   t.end()

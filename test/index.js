@@ -8,7 +8,16 @@ import {fromMarkdown} from 'mdast-util-from-markdown'
 import {toMarkdown} from 'mdast-util-to-markdown'
 import {gfm} from 'micromark-extension-gfm'
 import {gfmFromMarkdown, gfmToMarkdown} from '../index.js'
+import * as mod from '../index.js'
 import {spec} from './spec.js'
+
+test('core', () => {
+  assert.deepEqual(
+    Object.keys(mod).sort(),
+    ['gfmFromMarkdown', 'gfmToMarkdown'],
+    'should expose the public api'
+  )
+})
 
 test('markdown -> mdast', async () => {
   const files = spec.filter(

@@ -20,6 +20,9 @@ footnotes, strikethrough, tables, tasklists).
 *   [API](#api)
     *   [`gfmFromMarkdown()`](#gfmfrommarkdown)
     *   [`gfmToMarkdown(options?)`](#gfmtomarkdownoptions)
+    *   [`Options`](#options)
+*   [HTML](#html)
+*   [Syntax](#syntax)
 *   [Syntax tree](#syntax-tree)
 *   [Types](#types)
 *   [Compatibility](#compatibility)
@@ -29,16 +32,16 @@ footnotes, strikethrough, tables, tasklists).
 
 ## What is this?
 
-This package contains extensions for
-[`mdast-util-from-markdown`][mdast-util-from-markdown] and
-[`mdast-util-to-markdown`][mdast-util-to-markdown] to enable the features that
-GitHub adds to markdown: autolink literals (`www.x.com`), footnotes (`[^1]`),
+This package contains two extensions that add support for GFM syntax in
+markdown to [mdast][]: : autolink literals (`www.x.com`), footnotes (`[^1]`),
 strikethrough (`~~stuff~~`), tables (`| cell |…`), and tasklists (`* [x]`).
+These extensions plug into
+[`mdast-util-from-markdown`][mdast-util-from-markdown] (to support parsing
+GFM in markdown into a syntax tree) and
+[`mdast-util-to-markdown`][mdast-util-to-markdown] (to support serializing
+GFM in syntax trees to markdown).
 
 ## When to use this
-
-These tools are all rather low-level.
-In many cases, you’d want to use [`remark-gfm`][remark-gfm] with remark instead.
 
 This project is useful when you want to support the same features that GitHub
 does in files in a repo, Gists, and several other places.
@@ -49,26 +52,33 @@ There are several edge cases where GitHub’s implementation works in unexpected
 ways or even different than described in their spec, so *writing* in GFM is not
 always the best choice.
 
+You can use these extensions when you are working with
+`mdast-util-from-markdown` and `mdast-util-to-markdown` already.
+
+When working with `mdast-util-from-markdown`, you must combine this package
+with [`micromark-extension-gfm`][extension].
+
 Instead of this package, you can also use the extensions separately:
 
-*   [`syntax-tree/mdast-util-gfm-autolink-literal`](https://github.com/syntax-tree/mdast-util-gfm-autolink-literal)
+*   [`mdast-util-gfm-autolink-literal`](https://github.com/syntax-tree/mdast-util-gfm-autolink-literal)
     — support GFM autolink literals
-*   [`syntax-tree/mdast-util-gfm-footnote`](https://github.com/syntax-tree/mdast-util-gfm-footnote)
+*   [`mdast-util-gfm-footnote`](https://github.com/syntax-tree/mdast-util-gfm-footnote)
     — support GFM footnotes
-*   [`syntax-tree/mdast-util-gfm-strikethrough`](https://github.com/syntax-tree/mdast-util-gfm-strikethrough)
+*   [`mdast-util-gfm-strikethrough`](https://github.com/syntax-tree/mdast-util-gfm-strikethrough)
     — support GFM strikethrough
-*   [`syntax-tree/mdast-util-gfm-table`](https://github.com/syntax-tree/mdast-util-gfm-table)
+*   [`mdast-util-gfm-table`](https://github.com/syntax-tree/mdast-util-gfm-table)
     — support GFM tables
-*   [`syntax-tree/mdast-util-gfm-task-list-item`](https://github.com/syntax-tree/mdast-util-gfm-task-list-item)
+*   [`mdast-util-gfm-task-list-item`](https://github.com/syntax-tree/mdast-util-gfm-task-list-item)
     — support GFM tasklists
-
-When working with `mdast-util-from-markdown`, you must combine this package with
-[`micromark-extension-gfm`][extension].
 
 A different utility, [`mdast-util-frontmatter`][mdast-util-frontmatter], adds
 support for frontmatter.
 GitHub supports YAML frontmatter for files in repos and Gists but they don’t
 treat it as part of GFM.
+
+All these packages are used in [`remark-gfm`][remark-gfm], which
+focusses on making it easier to transform content by abstracting these
+internals away.
 
 This utility does not handle how markdown is turned to HTML.
 That’s done by [`mdast-util-to-hast`][mdast-util-to-hast].
@@ -77,7 +87,7 @@ If your content is not in English, you should configure that utility.
 ## Install
 
 This package is [ESM only][esm].
-In Node.js (version 12.20+, 14.14+, or 16.0+), install with [npm][]:
+In Node.js (version 14.14+ and 16.0+), install with [npm][]:
 
 ```sh
 npm install mdast-util-gfm
@@ -301,55 +311,87 @@ A note[^1]
 
 ## API
 
-This package exports the identifiers `gfmFromMarkdown` and `gfmToMarkdown`.
+This package exports the identifiers [`gfmFromMarkdown`][api-gfm-from-markdown]
+and [`gfmToMarkdown`][api-gfm-to-markdown].
 There is no default export.
 
 ### `gfmFromMarkdown()`
 
-Function that can be called to get an extension for
-[`mdast-util-from-markdown`][mdast-util-from-markdown].
+Create an extension for [`mdast-util-from-markdown`][mdast-util-from-markdown]
+to enable GFM (autolink literals, footnotes, strikethrough, tables, tasklists).
+
+###### Returns
+
+Extension for `mdast-util-from-markdown` to enable GFM
+([`Array<FromMarkdownExtension>`][from-markdown-extension]).
 
 ### `gfmToMarkdown(options?)`
 
-Function that can be called to get an extension for
-[`mdast-util-to-markdown`][mdast-util-to-markdown].
+Create an extension for [`mdast-util-to-markdown`][mdast-util-to-markdown]
+to enable GFM (autolink literals, footnotes, strikethrough, tables, tasklists).
 
-##### `options`
+###### Parameters
 
-Configuration (optional).
-Currently passes through `tableCellPadding`, `tablePipeAlign`, and
-`stringLength` to [`mdast-util-gfm-table`][table].
+*   `options` ([`Options`][api-options])
+    — configuration
+
+###### Returns
+
+Extension for `mdast-util-to-markdown` to enable GFM
+([`Array<ToMarkdownExtension>`][to-markdown-extension]).
+
+### `Options`
+
+Configuration (TypeScript type).
+
+###### Fields
+
+*   `tableCellPadding` (`boolean`, default: `true`)
+    — whether to add a space of padding between delimiters and cells
+*   `tablePipeAlign` (`boolean`, default: `true`)
+    — whether to align the delimiters
+*   `stringLength` (`((value: string) => number)`, default: `s => s.length`)
+    — function to detect the length of table cell content, used when aligning
+    the delimiters between cells
+
+## HTML
+
+This utility does not handle how markdown is turned to HTML.
+That’s done by [`mdast-util-to-hast`][mdast-util-to-hast].
+
+## Syntax
+
+See [Syntax in `micromark-extension-gfm`][syntax].
 
 ## Syntax tree
 
 This utility combines several mdast utilities.
 See their readmes for the node types supported in the tree:
 
-*   [`syntax-tree/mdast-util-gfm-autolink-literal`](https://github.com/syntax-tree/mdast-util-gfm-autolink-literal#syntax-tree)
+*   [`mdast-util-gfm-autolink-literal`](https://github.com/syntax-tree/mdast-util-gfm-autolink-literal#syntax-tree)
     — GFM autolink literals
-*   [`syntax-tree/mdast-util-gfm-footnote`](https://github.com/syntax-tree/mdast-util-gfm-footnote#syntax-tree)
+*   [`mdast-util-gfm-footnote`](https://github.com/syntax-tree/mdast-util-gfm-footnote#syntax-tree)
     — GFM footnotes
-*   [`syntax-tree/mdast-util-gfm-strikethrough`](https://github.com/syntax-tree/mdast-util-gfm-strikethrough#syntax-tree)
+*   [`mdast-util-gfm-strikethrough`](https://github.com/syntax-tree/mdast-util-gfm-strikethrough#syntax-tree)
     — GFM strikethrough
-*   [`syntax-tree/mdast-util-gfm-table`](https://github.com/syntax-tree/mdast-util-gfm-table#syntax-tree)
+*   [`mdast-util-gfm-table`](https://github.com/syntax-tree/mdast-util-gfm-table#syntax-tree)
     — GFM tables
-*   [`syntax-tree/mdast-util-gfm-task-list-item`](https://github.com/syntax-tree/mdast-util-gfm-task-list-item#syntax-tree)
+*   [`mdast-util-gfm-task-list-item`](https://github.com/syntax-tree/mdast-util-gfm-task-list-item#syntax-tree)
     — GFM tasklists
 
 ## Types
 
 This package is fully typed with [TypeScript][].
-It exports an `Options` type, which specifies the interface of the accepted
-options.
+It exports the additional type [`Options`][api-options].
 
-The `Delete`, `FootnoteDefinition`, `FootnoteReference`, `Table`, `TableCell`,
-and `TableRow` node types are supported in `@types/mdast` by default.
+The `Delete`, `FootnoteDefinition`, `FootnoteReference`, `Table`, `TableRow`,
+and `TableCell` types of the mdast nodes are exposed from `@types/mdast`.
 
 ## Compatibility
 
 Projects maintained by the unified collective are compatible with all maintained
 versions of Node.js.
-As of now, that is Node.js 12.20+, 14.14+, and 16.0+.
+As of now, that is Node.js 14.14+ and 16.0+.
 Our projects sometimes work with older versions, but this is not guaranteed.
 
 This plugin works with `mdast-util-from-markdown` version 1+ and
@@ -357,9 +399,9 @@ This plugin works with `mdast-util-from-markdown` version 1+ and
 
 ## Related
 
-*   [`remarkjs/remark-gfm`][remark-gfm]
+*   [`remark-gfm`][remark-gfm]
     — remark plugin to support GFM
-*   [`micromark/micromark-extension-gfm`][extension]
+*   [`micromark-extension-gfm`][extension]
     — micromark extension to parse GFM
 
 ## Contribute
@@ -430,7 +472,11 @@ abide by its terms.
 
 [mdast-util-from-markdown]: https://github.com/syntax-tree/mdast-util-from-markdown
 
+[from-markdown-extension]: https://github.com/syntax-tree/mdast-util-from-markdown#extension
+
 [mdast-util-to-markdown]: https://github.com/syntax-tree/mdast-util-to-markdown
+
+[to-markdown-extension]: https://github.com/syntax-tree/mdast-util-to-markdown#options
 
 [mdast-util-frontmatter]: https://github.com/syntax-tree/mdast-util-frontmatter
 
@@ -438,6 +484,12 @@ abide by its terms.
 
 [extension]: https://github.com/micromark/micromark-extension-gfm
 
-[table]: https://github.com/syntax-tree/mdast-util-gfm-table#options
+[syntax]: https://github.com/micromark/micromark-extension-gfm#syntax
 
 [gfm]: https://github.github.com/gfm/
+
+[api-gfm-from-markdown]: #gfmfrommarkdown
+
+[api-gfm-to-markdown]: #gfmtomarkdownoptions
+
+[api-options]: #options

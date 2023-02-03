@@ -1,7 +1,8 @@
+import assert from 'node:assert/strict'
 import fs from 'node:fs'
 import path from 'node:path'
 import test from 'tape'
-import Slugger from 'github-slugger'
+import {slug} from 'github-slugger'
 import {toHast} from 'mdast-util-to-hast'
 import {toHtml} from 'hast-util-to-html'
 import {fromMarkdown} from 'mdast-util-from-markdown'
@@ -18,7 +19,7 @@ test('markdown -> mdast', (t) => {
 
   while (++index < files.length) {
     const example = files[index]
-    const category = Slugger.slug(example.category)
+    const category = slug(example.category)
     const name = index + '-' + category
     const fixtureHtmlPath = path.join('test', name + '.html')
     const fixtureMarkdownPath = path.join('test', name + '.md')
@@ -28,14 +29,14 @@ test('markdown -> mdast', (t) => {
       mdastExtensions: [gfmFromMarkdown()]
     })
 
-    const html = toHtml(
-      toHast(mdast, {allowDangerousHtml: true, commonmark: true}),
-      {
-        allowDangerousHtml: true,
-        entities: {useNamedReferences: true},
-        closeSelfClosing: true
-      }
-    )
+    const hast = toHast(mdast, {allowDangerousHtml: true, commonmark: true})
+    assert(hast, 'expected node')
+
+    const html = toHtml(hast, {
+      allowDangerousHtml: true,
+      entities: {useNamedReferences: true},
+      closeSelfClosing: true
+    })
 
     let fixtureHtml
     let fixtureMarkdown

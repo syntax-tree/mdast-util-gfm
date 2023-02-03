@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import fs from 'node:fs/promises'
-import test from 'tape'
+import test from 'node:test'
 import {slug} from 'github-slugger'
 import {toHast} from 'mdast-util-to-hast'
 import {toHtml} from 'hast-util-to-html'
@@ -10,7 +10,7 @@ import {gfm} from 'micromark-extension-gfm'
 import {gfmFromMarkdown, gfmToMarkdown} from '../index.js'
 import {spec} from './spec.js'
 
-test('markdown -> mdast', async (t) => {
+test('markdown -> mdast', async () => {
   const files = spec.filter(
     (example) => !/disallowed raw html/i.test(example.category)
   )
@@ -54,17 +54,15 @@ test('markdown -> mdast', async (t) => {
       await fs.writeFile(inputUrl, expectedMarkdown)
     }
 
-    t.deepEqual(
+    assert.equal(
       actualHtml,
       expectedHtml,
       example.category + ' (' + index + ') -> html'
     )
-    t.equal(
+    assert.equal(
       actualMarkdown,
       expectedMarkdown,
       example.category + ' (' + index + ') -> md'
     )
   }
-
-  t.end()
 })

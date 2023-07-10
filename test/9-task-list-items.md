@@ -1,4 +1,4 @@
-*   [x] foo
-    *   [ ] bar
-    *   [x] baz
-*   [ ] bim
+* [x] foo
+  * [ ] bar
+  * [x] baz
+* [ ] bim

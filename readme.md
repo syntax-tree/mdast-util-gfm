@@ -96,14 +96,14 @@ npm install mdast-util-gfm
 In Deno with [`esm.sh`][esmsh]:
 
 ```js
-import {gfmFromMarkdown, gfmToMarkdown} from 'https://esm.sh/mdast-util-gfm@2'
+import {gfmFromMarkdown, gfmToMarkdown} from 'https://esm.sh/mdast-util-gfm@3'
 ```
 
 In browsers with [`esm.sh`][esmsh]:
 
 ```html
 <script type="module">
-  import {gfmFromMarkdown, gfmToMarkdown} from 'https://esm.sh/mdast-util-gfm@2?bundle'
+  import {gfmFromMarkdown, gfmToMarkdown} from 'https://esm.sh/mdast-util-gfm@3?bundle'
 </script>
 ```
 

@@ -1,3 +1,1 @@
-<http://commonmark.org>
-
-(Visit <https://encrypted.google.com/search?q=Markup+(business)>)
+[www.commonmark.org/he](http://www.commonmark.org/he)\<lp

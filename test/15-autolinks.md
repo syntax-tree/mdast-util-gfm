@@ -1,7 +1,3 @@
-[www.google.com/search?q=Markup+(business)](http://www.google.com/search?q=Markup+\(business\))
+Visit [www.commonmark.org](http://www.commonmark.org).
 
-[www.google.com/search?q=Markup+(business)](http://www.google.com/search?q=Markup+\(business\))))
-
-([www.google.com/search?q=Markup+(business)](http://www.google.com/search?q=Markup+\(business\)))
-
-([www.google.com/search?q=Markup+(business)](http://www.google.com/search?q=Markup+\(business\))
+Visit [www.commonmark.org/a.b](http://www.commonmark.org/a.b).

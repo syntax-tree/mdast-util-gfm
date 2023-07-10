@@ -1,7 +1,1 @@
-<a.b-c_d@a.b>
-
-<a.b-c_d@a.b>.
-
-a.b-c\_d\@a.b-
-
-a.b-c\_d\@a.b\_
+hello\@mail+xyz.example isn't valid, but <hello+xyz@mail.example> is.

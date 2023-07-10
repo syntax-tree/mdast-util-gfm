@@ -1,3 +1,1 @@
-Visit [www.commonmark.org](http://www.commonmark.org).
-
-Visit [www.commonmark.org/a.b](http://www.commonmark.org/a.b).
+Visit [www.commonmark.org/help](http://www.commonmark.org/help) for more information.

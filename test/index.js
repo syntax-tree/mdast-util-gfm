@@ -54,8 +54,8 @@ test('markdown -> mdast', async () => {
     let expectedHtml
     /** @type {string} */
     let expectedMarkdown
-    const expectedUrl = new URL(name + '.html', import.meta.url)
-    const inputUrl = new URL(name + '.md', import.meta.url)
+    const expectedUrl = new URL('fixture/' + name + '.html', import.meta.url)
+    const inputUrl = new URL('fixture/' + name + '.md', import.meta.url)
 
     try {
       expectedHtml = String(await fs.readFile(expectedUrl))

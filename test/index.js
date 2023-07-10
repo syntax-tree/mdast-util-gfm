@@ -5,14 +5,14 @@ import {slug} from 'github-slugger'
 import {toHtml} from 'hast-util-to-html'
 import {gfm} from 'micromark-extension-gfm'
 import {fromMarkdown} from 'mdast-util-from-markdown'
+import {gfmFromMarkdown, gfmToMarkdown} from 'mdast-util-gfm'
 import {toHast} from 'mdast-util-to-hast'
 import {toMarkdown} from 'mdast-util-to-markdown'
-import {gfmFromMarkdown, gfmToMarkdown} from '../index.js'
 import {spec} from './spec.js'
 
 test('core', async function (t) {
   await t.test('should expose the public api', async function () {
-    assert.deepEqual(Object.keys(await import('../index.js')).sort(), [
+    assert.deepEqual(Object.keys(await import('mdast-util-gfm')).sort(), [
       'gfmFromMarkdown',
       'gfmToMarkdown'
     ])

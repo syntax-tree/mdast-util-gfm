@@ -43,13 +43,15 @@ test('markdown -> mdast', async function (t) {
       mdastExtensions: [gfmFromMarkdown()]
     })
 
-    const hast = toHast(mdast, {allowDangerousHtml: true})
-    assert(hast, 'expected node')
-    const actualHtml = toHtml(hast, {
-      allowDangerousHtml: true,
-      entities: {useNamedReferences: true},
-      closeSelfClosing: true
-    })
+    const actualHtml = toHtml(
+      // @ts-expect-error: remove when `to-html` is released.
+      toHast(mdast, {allowDangerousHtml: true}),
+      {
+        allowDangerousHtml: true,
+        entities: {useNamedReferences: true},
+        closeSelfClosing: true
+      }
+    )
 
     /** @type {string} */
     let expectedMarkdown
